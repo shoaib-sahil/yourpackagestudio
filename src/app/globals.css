@@ -1,0 +1,295 @@
+@import "tailwindcss";
+
+/* Your Package Studio — brand guide palette */
+:root {
+  /* Primary pair */
+  --brand-cyan: #14bbd3;
+  --brand-slate: #374650;
+  /* Secondary pair */
+  --brand-orange: #faa41a;
+  --brand-magenta: #ec008c;
+
+  --e-global-color-primary: var(--brand-slate);
+  --e-global-color-dark: #000000;
+  --e-global-color-text: #555555;
+  --e-global-color-border: #e7e7e7;
+  --e-global-color-lighter: #999999;
+  --e-global-color-secondary: var(--brand-orange);
+  --bocpak-bg-muted: #f8f8f8;
+  --bocpak-bg-cream: #f7f4ee;
+  --bocpak-bg-paper: #faf8f4;
+  --bocpak-sale: var(--brand-magenta);
+  --bocpak-accent-gold: var(--brand-orange);
+  --bocpak-accent-gold-hover: color-mix(in srgb, var(--brand-orange) 82%, #000000);
+  --e-global-color-primary-hover: color-mix(in srgb, var(--brand-slate) 85%, #000000);
+  --bocpak-max: 1290px;
+  --bocpak-pad-x: 30px;
+  --bocpak-radius-card: 16px;
+  --bocpak-radius-btn: 30px;
+  --bocpak-footer-bg: #e9eeff;
+
+  --bocpak-footer-scroll: color-mix(in srgb, var(--e-global-color-primary) 48%, #000000);
+  --bocpak-footer-border: var(--e-global-color-border);
+}
+
+@theme inline {
+  --font-display: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --color-bocpak-primary: var(--e-global-color-primary);
+  --color-bocpak-text: var(--e-global-color-text);
+  --color-bocpak-border: var(--e-global-color-border);
+  --color-bocpak-muted: var(--e-global-color-lighter);
+  --color-bocpak-cream: var(--bocpak-bg-cream);
+  --color-bocpak-paper: var(--bocpak-bg-paper);
+  --color-brand-cyan: var(--brand-cyan);
+  --color-brand-magenta: var(--brand-magenta);
+  --color-bocpak-secondary: var(--e-global-color-secondary);
+  --color-bocpak-gold: var(--bocpak-accent-gold);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #fff;
+  color: var(--e-global-color-text);
+  font-family: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  color: #fff;
+  background: var(--e-global-color-primary);
+}
+
+.font-display {
+  font-family: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Layout width + horizontal padding aligned with .col-full / Elementor (1290 / 30px) */
+.container-bocpak {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: var(--bocpak-max);
+  padding-left: max(15px, env(safe-area-inset-left));
+  padding-right: max(15px, env(safe-area-inset-right));
+}
+
+@media (min-width: 640px) {
+  .container-bocpak {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-bocpak {
+    padding-left: var(--bocpak-pad-x);
+    padding-right: var(--bocpak-pad-x);
+  }
+}
+
+/* Section titles */
+.heading-section {
+  font-family: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 40px;
+  color: var(--e-global-color-primary);
+}
+
+/* Eyebrow labels */
+.label-caps {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--e-global-color-lighter);
+}
+
+/* Primary / outline buttons — pill radius from theme */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--bocpak-radius-btn);
+  background: var(--e-global-color-primary);
+  padding: 12px 28px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: var(--e-global-color-primary-hover);
+  color: #fff;
+}
+
+.btn-outline-light {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--bocpak-radius-btn);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: transparent;
+  padding: 12px 28px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+  transition: background-color 0.2s ease;
+}
+
+.btn-outline-light:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.btn-soft {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--bocpak-radius-btn);
+  border: 1px solid color-mix(in srgb, var(--e-global-color-primary) 22%, transparent);
+  background: var(--bocpak-bg-cream);
+  padding: 10px 22px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--e-global-color-primary);
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-soft:hover {
+  border-color: var(--e-global-color-primary);
+  background: var(--e-global-color-primary);
+  color: #fff;
+}
+
+/* Hero CTA on imagery — white pill (theme primary text) */
+.btn-hero-solid {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--bocpak-radius-btn);
+  background: #fff;
+  padding: 12px 28px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--e-global-color-primary);
+  transition: background-color 0.2s ease;
+}
+
+.btn-hero-solid:hover {
+  background: #f5f5f5;
+}
+
+/* Card surface */
+.surface-card {
+  border-radius: var(--bocpak-radius-card);
+  border: 1px solid var(--e-global-color-border);
+  background: var(--bocpak-bg-paper);
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 32s linear infinite;
+}
+
+.animate-marquee-business {
+  animation: marquee 38s linear infinite;
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  transform-origin: 50px 50px;
+  animation: spin-slow 24s linear infinite;
+}
+
+.font-playfair {
+  font-family: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ─── Page-load overlay ─────────────────────────────────────────────────── */
+@keyframes loader-shrink {
+  0%   { transform: scaleX(1); opacity: 1; }
+  70%  { transform: scaleX(1); opacity: 1; }
+  100% { transform: scaleX(0); opacity: 0; }
+}
+@keyframes loader-bar {
+  0%   { transform: scaleX(0); }
+  60%  { transform: scaleX(0.85); }
+  100% { transform: scaleX(1); }
+}
+@keyframes loader-logo-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.92); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes loader-fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; pointer-events: none; }
+}
+
+/* ─── Scroll-reveal helpers ─────────────────────────────────────────────── */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+@keyframes gradient-x {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+@keyframes shimmer-slide {
+  from { background-position: -200% 0; }
+  to   { background-position: 200% 0; }
+}
+@keyframes pulse-ring {
+  0%   { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-float-y {
+  animation: float-y 4s ease-in-out infinite;
+}
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 6s ease infinite;
+}
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.25) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer-slide 2.2s ease-in-out infinite;
+}
+.animate-pulse-ring {
+  animation: pulse-ring 1.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
