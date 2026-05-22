@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Search, X } from "lucide-react";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { products, type ProductItem } from "@/lib/content";
+import { headerProductTypeHref } from "@/lib/headerNav";
 import {
   filterNavLabels,
   filterProductsByQuery,
@@ -189,7 +190,7 @@ export function HeaderSearch() {
                   {navMatches.map((n: NavSearchLabel) => (
                     <li key={`${n.group}-${n.label}`} role="option">
                       <Link
-                        href="#products"
+                        href={headerProductTypeHref(n.label)}
                         className="flex flex-col rounded-lg px-2 py-2 transition-colors hover:bg-[#f6f6f6]"
                         onClick={() => setDropdownOpen(false)}
                       >
@@ -293,7 +294,7 @@ export function MobileDrawerSearch({ onNavigate }: { onNavigate: () => void }) {
           {navMatches.map((n) => (
             <Link
               key={`${n.group}-${n.label}`}
-              href="#products"
+              href={headerProductTypeHref(n.label)}
               className="block px-3 py-2 text-[13px] hover:bg-[#f6f6f6]"
               onClick={onNavigate}
             >

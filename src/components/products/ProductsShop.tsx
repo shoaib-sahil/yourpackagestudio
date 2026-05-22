@@ -38,6 +38,37 @@ const SORT_OPTIONS = ["Default sorting", "Sort by popularity", "Sort by latest",
 
 type View = "grid" | "list";
 
+function productTypeLabel(type?: string): string | null {
+  if (!type) return null;
+  return type
+    .split("-")
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+function simplifyProductType(value: string): string {
+  return value
+    .replace(/-(boxes|box|bags|bag|packaging|products|cards|sleeves|inserts|stickers|flyers|stamps|booklet)$/g, "")
+    .replace(/s$/g, "");
+}
+
+function matchesProductType(p: (typeof products)[0], typeSlug: string): boolean {
+  if (!typeSlug) return true;
+  const requested = simplifyProductType(typeSlug);
+  const terms = [p.name, p.category, ...(p.tags ?? [])].map((term) =>
+    simplifyProductType(slugify(term)),
+  );
+
+  return terms.some(
+    (term) =>
+      term === typeSlug ||
+      term === requested ||
+      term.includes(requested) ||
+      requested.includes(term),
+  );
+}
+
 function AccordionSection({ title, children, defaultOpen = true }: { title: string; children: React.ReactNode; defaultOpen?: boolean }) {
   const [open, setOpen] = useState(defaultOpen);
   return (
@@ -93,8 +124,8 @@ function GridCard({ p }: { p: (typeof products)[0] }) {
 function ListCard({ p }: { p: (typeof products)[0] }) {
   const href = `/products/${slugify(p.name)}`;
   return (
-    <article className="group flex gap-5 overflow-hidden rounded-[10px] border border-[#e7e7e7] bg-white p-4 transition-shadow duration-300 hover:shadow-[0px_6px_22px_rgba(0,0,0,0.08)]">
-      <Link href={href} className="relative h-[170px] w-[170px] shrink-0 overflow-hidden rounded-lg bg-[#f5f5f5] block">
+    <article className="group flex flex-col gap-4 overflow-hidden rounded-[10px] border border-[#e7e7e7] bg-white p-4 transition-shadow duration-300 hover:shadow-[0px_6px_22px_rgba(0,0,0,0.08)] sm:flex-row sm:gap-5">
+      <Link href={href} className="relative block aspect-square w-full shrink-0 overflow-hidden rounded-lg bg-[#f5f5f5] sm:h-[170px] sm:w-[170px]">
         <Image
           src={p.image}
           alt={p.name}
@@ -119,15 +150,20 @@ function ListCard({ p }: { p: (typeof products)[0] }) {
 }
 
 /* ─── main component ───────────────────────────────────────── */
-export function ProductsShop() {
+export function ProductsShop({ initialType }: { initialType?: string } = {}) {
   const [view, setView] = useState<View>("grid");
   const [sort, setSort] = useState(SORT_OPTIONS[0]);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [activeColors, setActiveColors] = useState<Set<string>>(new Set());
   const [activeSizes, setActiveSizes] = useState<Set<string>>(new Set());
   const [activeTags, setActiveTags] = useState<Set<string>>(new Set());
+  const typeSlug = initialType ? slugify(initialType) : "";
+  const typeLabel = productTypeLabel(typeSlug);
   const filtered = useMemo(() => {
     let list = [...products];
+    if (typeSlug) {
+      list = list.filter((p) => matchesProductType(p, typeSlug));
+    }
     if (activeCategory) {
       list = list.filter((p) =>
         p.category.toLowerCase().includes(activeCategory.toLowerCase())
@@ -149,7 +185,7 @@ export function ProductsShop() {
     if (sort === "Sort by name: A–Z") list = [...list].sort((a, b) => a.name.localeCompare(b.name));
     if (sort === "Sort by name: Z–A") list = [...list].sort((a, b) => b.name.localeCompare(a.name));
     return list;
-  }, [activeCategory, activeColors, activeSizes, activeTags, sort]);
+  }, [activeCategory, activeColors, activeSizes, activeTags, sort, typeSlug]);
 
   function toggleColor(c: string) {
     setActiveColors((prev) => {
@@ -267,17 +303,24 @@ export function ProductsShop() {
         {/* ── MAIN CONTENT ─────────────────────────────────── */}
         <div className="min-w-0 flex-1">
           {/* Toolbar */}
-          <div className="mb-6 flex items-center justify-between gap-4">
-            <p className="text-[13px] text-[#777]">
-              Showing 1–{filtered.length} of {filtered.length} results
-            </p>
-            <div className="flex items-center gap-3">
+          <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-[13px] text-[#777]">
+                Showing 1–{filtered.length} of {filtered.length} results
+              </p>
+              {typeLabel && (
+                <p className="mt-1 text-[13px] font-semibold text-[#111]">
+                  Product type: <span className="text-brand-cyan">{typeLabel}</span>
+                </p>
+              )}
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
               {/* Sort */}
               <div className="relative">
                 <select
                   value={sort}
                   onChange={(e) => setSort(e.target.value)}
-                  className="appearance-none rounded-lg border border-[#e0e0e0] bg-white py-1.5 pl-3 pr-8 text-[13px] text-[#444] focus:outline-none focus:ring-1 focus:ring-brand-cyan"
+                  className="max-w-full appearance-none rounded-lg border border-[#e0e0e0] bg-white py-1.5 pl-3 pr-8 text-[13px] text-[#444] focus:outline-none focus:ring-1 focus:ring-brand-cyan"
                 >
                   {SORT_OPTIONS.map((o) => (
                     <option key={o}>{o}</option>
@@ -320,7 +363,7 @@ export function ProductsShop() {
           ) : view === "grid" ? (
             <motion.div
               key="grid"
-              className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4"
+              className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4"
               initial="hidden"
               animate="show"
               variants={{

@@ -88,18 +88,18 @@ export function SiteFooter() {
       />
 
       {/* ─── Main content ─── */}
-      <div className=" mx-20  max-w-[1440px]  pb-4 pt-14 sm:px-8  ">
+      <div className="container-bocpak pb-4 pt-12 sm:pt-14">
 
         
         <div className="lg:flex lg:items-start lg:gap-0">
 
           {/* ── Brand panel ── */}
           <div className="mb-10 lg:mb-0 lg:w-[300px] lg:shrink-0 lg:pr-10 xl:w-[400px] xl:pr-12">
-            <a href="/" className="block mb-4 relative right-[110px]" >
+            <a href="/" className="mb-4 block" >
               <img
                 src={logoSrc}
                 alt="Bocpak"
-                className="block h-auto w-auto max-h-[93px] max-w-[350px] "
+                className="block h-auto w-auto max-h-[80px] max-w-full sm:max-h-[93px] sm:max-w-[350px]"
               />
             </a>
             <p className="mb-6 max-w-[270px] font-sans text-[14px] leading-[1.7] text-[#555]">

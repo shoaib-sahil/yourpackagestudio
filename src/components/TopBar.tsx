@@ -3,9 +3,9 @@ import Link from "next/link";
 
 export function TopBar() {
   return (
-    <div className="pl-20 pr-20 bg-[#2757ff] text-white py-1">
-      <div className="flex h-9 items-center justify-between text-[16px] leading-none">
-        <div className="flex items-center gap-8">
+    <div className="bg-[#2757ff] py-1 text-white">
+      <div className="container-bocpak flex min-h-9 items-center justify-center gap-3 text-[12px] leading-tight sm:text-[14px] lg:justify-between lg:text-[16px]">
+        <div className="hidden items-center gap-4 lg:flex xl:gap-8">
           <span className="font-medium">Follow Us:</span>
           <Link href="#" aria-label="Facebook" className="hover:opacity-80">
             <Facebook className="h-5 w-5" strokeWidth={1.8} />
@@ -21,12 +21,14 @@ export function TopBar() {
           </Link>
         </div>
 
-        <div className="flex flex-1 items-center justify-center gap-2 text-[16px] font-medium">
-          <span className="inline-block h-7 w-7 rounded-full border border-white/70 bg-[url('https://demo2.themelexus.com/bocpak/wp-content/uploads/2024/05/h1-slider1-l2.jpg')] bg-cover bg-center" />
-          Ramadan Offer: Extra 10% off + Up to 25% Bulk Discount!
+        <div className="flex min-w-0 flex-1 items-center justify-center gap-2 text-center font-medium">
+          <span className="hidden h-7 w-7 shrink-0 rounded-full border border-white/70 bg-[url('https://demo2.themelexus.com/bocpak/wp-content/uploads/2024/05/h1-slider1-l2.jpg')] bg-cover bg-center sm:inline-block" />
+          <span className="min-w-0">
+            Ramadan Offer: Extra 10% off + Up to 25% Bulk Discount!
+          </span>
         </div>
 
-        <div className="flex items-center justify-end gap-6 text-[16px]">
+        <div className="hidden items-center justify-end gap-6 lg:flex">
           <Link href="#" className="hover:opacity-80">
             English
           </Link>

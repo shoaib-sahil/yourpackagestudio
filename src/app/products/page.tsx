@@ -8,7 +8,14 @@ export const metadata = {
   description: "Browse our full range of custom packaging solutions.",
 };
 
-export default function ProductsPage() {
+export default async function ProductsPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ type?: string }>;
+}) {
+  const params = await searchParams;
+  const initialType = typeof params?.type === "string" ? params.type : undefined;
+
   return (
     <>
       <TopBar />
@@ -21,7 +28,7 @@ export default function ProductsPage() {
             <span className="font-medium text-[#111]">Products</span>
           </nav>
         </div>
-        <ProductsShop />
+        <ProductsShop initialType={initialType} />
       </main>
       <SiteFooter />
     </>

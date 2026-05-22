@@ -6,18 +6,16 @@ import { ChevronDown, Menu, Phone, X } from "lucide-react";
 import { useState } from "react";
 import { HeaderSearch, MobileDrawerSearch } from "@/components/HeaderSearch";
 import { logoIntrinsic, logoSrc } from "@/lib/content";
-import { headerNavLeft, headerNavRight, isNavDropdown } from "@/lib/headerNav";
+import { headerNavLeft, headerNavRight, headerProductTypeHref, isNavDropdown } from "@/lib/headerNav";
 
 function NavDropdown({
   label,
   items,
-  align = "start",
 }: {
   label: string;
   items: readonly string[];
-  align?: "start" | "end";
 }) {
-  const edge = align === "end" ? "right-0" : "left-0";
+  const twoColumn = items.length > 6;
   return (
     <div className="group relative">
       <button
@@ -30,21 +28,45 @@ function NavDropdown({
         <ChevronDown className="h-4 w-4 shrink-0 text-[#7a7a7a] transition-transform duration-200 group-hover:rotate-180" />
       </button>
       <div
-        className={`pointer-events-none invisible absolute top-full z-[60] min-w-[min(100vw-2rem,280px)] pt-2 opacity-0 transition-[opacity,visibility] duration-150 group-hover:pointer-events-auto group-hover:visible group-hover:opacity-100 ${edge}`}
+        className={`pointer-events-none invisible absolute top-full z-[60] pt-3 opacity-0 transition-[opacity,visibility] duration-150 group-hover:pointer-events-auto group-hover:visible group-hover:opacity-100 ${
+          twoColumn ? "w-[min(100vw-2rem,520px)]" : "min-w-[min(100vw-2rem,280px)]"
+        } left-1/2 -translate-x-1/2`}
       >
-        <div className="max-h-[min(70vh,440px)] overflow-y-auto rounded-lg border border-[#e7e7e7] bg-white py-2 shadow-lg">
-          <ul className="text-[13px] font-normal normal-case tracking-normal text-[#444]">
+        <div className="relative">
+          {/* Caret — points up to parent nav */}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute -top-[7px] left-1/2 z-[9] block h-0 w-0 -translate-x-1/2 border-x-[8px] border-b-[8px] border-x-transparent border-b-[#e7e7e7]"
+          />
+          <span
+            aria-hidden
+            className="pointer-events-none absolute -top-[6px] left-1/2 z-10 block h-0 w-0 -translate-x-1/2 border-x-[7px] border-b-[7px] border-x-transparent border-b-white"
+          />
+
+          <div className="max-h-[min(70vh,440px)] overflow-y-auto rounded-lg border border-[#e7e7e7] bg-white shadow-lg">
+            <p className="border-b border-[#ececec] px-4 pb-2 pt-2.5 text-center text-[10px] font-semibold uppercase tracking-[0.16em] text-brand-cyan">
+              {label}
+            </p>
+            <ul
+              className={`py-1 text-[13px] font-normal normal-case tracking-normal text-[#444] ${
+                twoColumn ? "grid grid-cols-2 gap-x-1" : ""
+              }`}
+            >
             {items.map((item) => (
               <li key={item}>
                 <Link
-                  href="#"
-                  className="block px-4 py-2 transition-colors hover:bg-[#f6f6f6] hover:text-[#101010]"
+                  href={headerProductTypeHref(item)}
+                  className="group/item relative block px-4 py-2 transition-colors hover:bg-[#f6f6f6] hover:text-[#101010]"
                 >
-                  {item}
+                  <span className="relative inline-block">
+                    {item}
+                    <span className="absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-brand-cyan transition-transform duration-300 ease-out group-hover/item:scale-x-100" />
+                  </span>
                 </Link>
               </li>
             ))}
-          </ul>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -56,8 +78,8 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 overflow-visible border-b border-[#ececec] bg-[#f6f6f6]">
-      <div className="relative flex h-[100px] items-center justify-between overflow-visible pl-5 pr-5">
-        <div className="hidden items-center gap-3 text-[#777] lg:flex lg:w-[248px]">
+      <div className="relative flex h-20 items-center justify-between overflow-visible px-4 sm:px-5 xl:h-[100px]">
+        <div className="hidden items-center gap-3 text-[#777] xl:flex xl:w-[248px]">
           <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#d9d9d9]">
             <Phone className="h-6 w-6" strokeWidth={1.8} />
           </span>
@@ -69,7 +91,7 @@ export function SiteHeader() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2 lg:hidden">
+        <div className="flex min-w-0 items-center gap-2 xl:hidden">
           <button
             type="button"
             className="rounded-md p-2 text-bocpak-primary"
@@ -91,7 +113,7 @@ export function SiteHeader() {
           </Link>
         </div>
 
-        <div className="hidden min-w-0 flex-1 items-center justify-center gap-4 lg:flex">
+        <div className="hidden min-w-0 flex-1 items-center justify-center gap-4 xl:flex">
           <nav
             className="flex min-w-0 items-center gap-5 text-[14px] font-semibold tracking-[0.02em] text-[#101010]"
             aria-label="Primary"
@@ -129,7 +151,7 @@ export function SiteHeader() {
           >
             {headerNavRight.map((entry) =>
               isNavDropdown(entry) ? (
-                <NavDropdown key={entry.label} label={entry.label} items={entry.items} align="end" />
+                <NavDropdown key={entry.label} label={entry.label} items={entry.items} />
               ) : (
                 <Link
                   key={entry.label}
@@ -143,13 +165,13 @@ export function SiteHeader() {
           </nav>
         </div>
 
-        <div className="ml-auto flex min-w-0 max-w-[min(200px,46vw)] items-center sm:max-w-[240px] lg:w-[268px] lg:max-w-none lg:justify-end">
+        <div className="ml-auto flex min-w-0 max-w-[min(200px,46vw)] items-center sm:max-w-[240px] xl:w-[268px] xl:max-w-none xl:justify-end">
           <HeaderSearch />
         </div>
       </div>
 
       {open && (
-        <div className="fixed inset-0 z-[60] lg:hidden">
+        <div className="fixed inset-0 z-[60] xl:hidden">
           <button
             type="button"
             className="absolute inset-0 bg-black/40"
@@ -186,7 +208,7 @@ export function SiteHeader() {
                         {entry.items.map((item) => (
                           <li key={item}>
                             <Link
-                              href="#"
+                              href={headerProductTypeHref(item)}
                               className="font-medium text-bocpak-text hover:text-bocpak-primary"
                               onClick={() => setOpen(false)}
                             >

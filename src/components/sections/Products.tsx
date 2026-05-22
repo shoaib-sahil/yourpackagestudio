@@ -21,7 +21,7 @@ export function Products() {
 
   return (
     <section id="products" className="bg-white py-10 lg:py-[60px]">
-      <div className="pl-20 pr-20">
+      <div className="container-bocpak">
         <div className="text-center">
           <p className="font-display text-2xl font-normal text-brand-cyan sm:text-[26px]">
             Products.
@@ -43,7 +43,7 @@ export function Products() {
           </Link>
         </div>
 
-        <div className="mt-10 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {products.map((p, index) => {
             const href = `/products/${slugify(p.name)}`;
             return (

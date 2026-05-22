@@ -49,9 +49,13 @@
 
 html {
   scroll-behavior: smooth;
+  width: 100%;
+  overflow-x: clip;
 }
 
 body {
+  width: 100%;
+  overflow-x: clip;
   background: #fff;
   color: var(--e-global-color-text);
   font-family: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;

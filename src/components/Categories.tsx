@@ -8,7 +8,7 @@ export function Categories() {
 
   return (
     <section id="categories" className="bg-white py-10 lg:py-[60px]">
-      <div className="pl-20 pr-20">
+      <div className="container-bocpak">
         <div className="mx-auto max-w-3xl text-center">
           <p className="font-display text-4xl font-bold uppercase tracking-[0.2em] text-brand-cyan">
             Categories
@@ -31,15 +31,15 @@ export function Categories() {
         </div>
 
         <div className="mt-10 grid w-full gap-8 lg:grid-cols-[minmax(0,1.62fr)_minmax(220px,26%)] lg:items-stretch lg:gap-10 xl:gap-12">
-          <div className="min-w-0 grid grid-cols-2 gap-4 sm:gap-5 md:gap-6 lg:grid-cols-4">
+          <div className="min-w-0 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 md:gap-6 lg:grid-cols-4">
             {categories.map((c) => (
               <Link
                 key={c.title}
                 href="/products"
-                className="group flex flex-col items-center rounded-[14px] border-[0.5px] border-[#e7e7e7] bg-white px-5 py-6 pb-7 shadow-[0_1px_0_rgba(0,0,0,0.04)] transition hover:border-[#d0d0d0] hover:shadow-[0px_4px_24px_rgba(0,0,0,0.08)] sm:px-6 sm:py-7"
+                className="group flex min-w-0 flex-col items-center rounded-[14px] border-[0.5px] border-[#e7e7e7] bg-white px-4 py-6 pb-7 shadow-[0_1px_0_rgba(0,0,0,0.04)] transition hover:border-[#d0d0d0] hover:shadow-[0px_4px_24px_rgba(0,0,0,0.08)] sm:px-6 sm:py-7"
               >
                 <div
-                  className="relative flex h-[172px] w-[172px] shrink-0 items-center justify-center overflow-hidden rounded-full p-2 sm:h-[188px] sm:w-[188px]"
+                  className="relative flex h-[min(48vw,172px)] w-[min(48vw,172px)] max-w-full shrink-0 items-center justify-center overflow-hidden rounded-full p-2 sm:h-[188px] sm:w-[188px]"
                 >
                   {/* Clip image to a circle so rectangular JPGs don’t spill past the round badge */}
                   <div className="relative h-full min-h-0 w-full overflow-hidden rounded-full">
